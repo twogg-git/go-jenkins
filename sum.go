@@ -28,5 +28,5 @@ func main() {
 }
 
 func Sum(a int, b int) int {
-	return a + a
+	return a + a + 1
 }
