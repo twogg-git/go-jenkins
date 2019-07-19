@@ -9,10 +9,10 @@ pipeline {
             steps {                                           
                 // Create our project directory.
                 sh 'cd ${GOPATH}/src'
-                sh 'mkdir -p ${GOPATH}/src/github.com/twogg-git/go-jenkins'
+                sh 'mkdir -p ${GOPATH}/src/go-jenkins'
 
                 // Copy all files in our Jenkins workspace to our project directory.                
-                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/github.com/twogg-git/go-jenkins'
+                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/go-jenkins'
 
                 // Copy all files in our "vendor" folder to our "src" folder.
                 sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
