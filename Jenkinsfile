@@ -2,7 +2,7 @@
 // The above line is used to trigger correct syntax highlighting.
 
 pipeline {
-    agent { docker { image 'golang' } }
+    agent { docker { image 'golang:1.10' } }
 
     stages {
         stage('Build') {   
