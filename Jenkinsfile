@@ -8,20 +8,20 @@ pipeline {
         stage('Build') {   
             steps {        
                 
-                echo 'Golang Version'
+                // Golang Version
                 sh 'go version'
                
-                echo 'Create our project directory'
+                // Create our project directory
                 sh 'cd ${GOPATH}/src'
                 sh 'mkdir -p ${GOPATH}/src/twogg-git/go-jenkins'
 
-                echo 'Copy all files in our Jenkins workspace to our project directory'                
+                // Copy all files in our Jenkins workspace to our project directory                
                 sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
 
-                echo 'Copy all files in our "vendor" folder to our "src" folder'
+                // Copy all files in our "vendor" folder to our "src" folder
                 //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
 
-                echo 'Build the app'
+                // Build the app
                 sh 'go build'
             }            
         }
@@ -34,17 +34,17 @@ pipeline {
                 // Remove cached test results.
                 //sh 'go clean -cache'
 
-                echo 'Run Unit Tests'
+                // Run Unit Tests
                 sh 'go test ./... -v'                                  
             }
         } 
         
         stage('Push image') {
             steps { 
-                /* Finally, we'll push the image with two tags:
-                 * First, the incremental build number from Jenkins
-                 * Second, the 'latest' tag.
-                 * Pushing multiple tags is cheap, as all the layers are reused. */fin
+                // Finally, we'll push the image with two tags:
+                 // First, the incremental build number from Jenkins
+                 // Second, the 'latest' tag.
+                 // Pushing multiple tags is cheap, as all the layers are reused. 
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("latest")
