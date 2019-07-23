@@ -14,8 +14,7 @@ pipeline {
             steps {        
                 
                 sh 'go version' //Golang Version      
-                echo '>>>>> Removing cached files'
-                sh 'go clean -i -r -n'
+                echo '>>>>> Removing cached files' && sh 'go clean -i -r -n'
             }            
         }
             
