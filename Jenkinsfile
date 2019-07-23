@@ -54,6 +54,7 @@ pipeline {
             steps {                    
                 // Run Unit Tests
                 sh 'curl http://localhost:8080'   
+                sh ./sum
             }
         } 
         
