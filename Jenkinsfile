@@ -14,10 +14,9 @@ pipeline {
             steps {        
                 
                 // Golang Version
-                sh 'go version'
-                sh 'go get -u github.com/golang/dep/...'
-                sh 'dep init'
-             
+                sh 'go version'       
+                // Remove cached test results.
+                sh 'go clean -cache'
             }            
         }
             
@@ -51,11 +50,10 @@ pipeline {
         stage('Test') {
             steps {                    
                 
-                // Remove cached test results.
-                //sh 'go clean -cache'
-
                 // Run Unit Tests
-                sh 'go test ./... -v'                                  
+                sh 'go test ./... -v'   
+                sh 'go test -cover -coverprofile=c.out'
+                sh 'go tool cover -html=c.out -o coverage.html'
             }
         } 
         
