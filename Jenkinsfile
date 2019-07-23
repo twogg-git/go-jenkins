@@ -80,12 +80,13 @@ pipeline {
         //        }
         //    }
         // }
-            
-        stage('Building image') {
-            steps{
-               
-                sh 'docker build registry + ":$BUILD_NUMBER"'
-                
+        
+        // https://registry.hub.docker.com/
+        stage('Push image') {
+            steps {
+                script {
+                    docker.build(registry + ":$BUILD_NUMBER") 
+                }
             }
         }
         
