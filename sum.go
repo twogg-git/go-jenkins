@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func main1() {
 	if len(os.Args) != 3 {
 		fmt.Println("Please two integer args.")
 		os.Exit(1)
