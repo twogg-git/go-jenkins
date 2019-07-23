@@ -19,6 +19,8 @@ pipeline {
                 sh 'go version' 
                 // Removing cached files
                 sh 'go clean -i -r -n'
+                // Removing cached files
+                sh 'go get -u github.com/google/glog'
             }            
         }
             
@@ -80,7 +82,8 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                    docker.withRegistry('', 'docker-hub-credentials') {
+                        aap.build(registry + ":$BUILD_NUMBER") 
                         app.push("${env.BUILD_NUMBER}")	                     
                         app.push("latest")
                    }
