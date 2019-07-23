@@ -39,12 +39,14 @@ pipeline {
             }
         } 
         
+        stage('Build image') {
+            dockerImage = docker.build("twogghub/go-jenkins:${env.BUILD_NUMBER}")
+        }
+        
         stage('Push image') {
             steps {
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    app.push("${env.BUILD_NUMBER}")
-                    app.push("latest")
-
+                     dockerImage.push()
                 }
             }
         }
