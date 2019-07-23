@@ -63,29 +63,30 @@ pipeline {
         //        }
         //    }
         //}
-        stage('Build image') {   
-            steps {
-                script {  
-                    sh 'ls -a'
-                    docker.build(registry + ":$BUILD_NUMBER") 
-                    docker.withRegistry('', 'docker-hub-credentials') {
-                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-                    }
-                }
-            }
-        }
-        
-        // https://registry.hub.docker.com/
-        //stage('Push image') {
+        // stage('Build image') {   
         //    steps {
-        //        script {
-        //            docker.withRegistry('https://registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
-        //                app.push("${env.BUILD_NUMBER}")	                     
-        //                app.push("latest")
+        //        script {  
+        //            sh 'ls -a'
+        //            docker.build(registry + ":$BUILD_NUMBER") 
+        //            docker.withRegistry('', 'docker-hub-credentials') {
+        //                sh "docker login -u ${USERNAME} -p ${PASSWORD}"
         //            }
         //        }
         //    }
-        // }
+        //}
+        
+        // https://registry.hub.docker.com/
+        // https://index.docker.io/v1/
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                        app.push("${env.BUILD_NUMBER}")	                     
+                        app.push("latest")
+                   }
+                }
+            }
+         }
         
         // https://registry.hub.docker.com/
         // stage('Push image') {
