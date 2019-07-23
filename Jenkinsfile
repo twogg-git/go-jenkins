@@ -14,6 +14,8 @@ pipeline {
                 sh 'go version' 
                 // Removing cached files
                 sh 'go clean -i -r -n'
+                // Setting up package dependencies
+                sh 'go get -v .'
             }            
         }
             
