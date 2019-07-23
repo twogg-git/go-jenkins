@@ -42,7 +42,7 @@ pipeline {
         stage('Build image') {   
             steps {
                 script {  
-                    docker.withRegistry('', 'docker-hub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                         // Golang Version
                         sh 'docker login'
                     }
