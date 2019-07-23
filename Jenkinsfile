@@ -4,6 +4,11 @@
 pipeline {
     agent { docker { image 'golang:1.8.6' } }
 
+    environment {
+        registry = "twogghub/test1"
+        registryCredential = 'docker-hub-credentials'
+    }
+    
     stages {
         stage('Build') {   
             steps {        
@@ -39,16 +44,30 @@ pipeline {
             }
         } 
         
-        stage('Build image') {   
-            steps {
-                script {  
-                    docker.withRegistry('', 'docker-hub-credentials') {
-                        // Golang Version
-                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-                    }
-                }
-            }
-        }
+        //stage('Push image') {
+        //    /* Finally, we'll push the image with two tags:
+        //    * First, the incremental build number from Jenkins
+        //    * Second, the 'latest' tag. */
+        //    withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        //
+        //        docker.withRegistry('', 'docker-hub-credentials') {
+        //            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+        //            myImage.push("${env.BUILD_NUMBER}")
+        //            myImage.push("latest")
+        //        }
+        //    }
+        //}
+    
+        //stage('Build image') {   
+        //    steps {
+        //        script {  
+        //            docker.withRegistry('', 'docker-hub-credentials') {
+        //                // Golang Version
+        //                sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+        //            }
+        //        }
+        //    }
+        //}
         
         // https://registry.hub.docker.com/
         //stage('Push image') {
@@ -62,5 +81,12 @@ pipeline {
         //    }
         // }
             
-    }
+        stage('Building image') {
+            steps{
+                script {
+                    docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        
 } 
