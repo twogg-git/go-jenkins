@@ -5,7 +5,7 @@ pipeline {
     agent { docker { image 'golang:1.8.6' } }
 
     environment {
-        registry = "twogghub/test1"
+        registry = 'twogghub/test1'
         registryCredential = 'docker-hub-credentials'
     }
     
@@ -67,6 +67,8 @@ pipeline {
         stage('Build image') {   
             steps {
                 script {  
+                    sh 'ls -a'
+                    sh 'docker build -t twogghub/test1 .'
                     docker.withRegistry('', 'docker-hub-credentials') {
                         // Golang Version
                         sh "docker login -u ${USERNAME} -p ${PASSWORD}"
