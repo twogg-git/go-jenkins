@@ -16,7 +16,9 @@ pipeline {
                 // Golang Version
                 sh 'go version'       
                 // Remove cached test results.
-                sh 'go clean -cache'
+                sh 'go clean -cache -i -r -n  test.out'
+                // Remove build results.
+                sh 'go clean -cache -i -r -n  build.out'
             }            
         }
             
