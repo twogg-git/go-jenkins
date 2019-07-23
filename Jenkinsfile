@@ -63,15 +63,16 @@ pipeline {
         //        }
         //    }
         //}
-    
-        stage('Build image') {   
-            steps {
-                script {  
-                    sh 'ls -a'
-                    docker.build(registry + ":$BUILD_NUMBER") 
-                    docker.withRegistry('', 'docker-hub-credentials') {
-                        // Golang Version
-                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+        if(env.BRANCH_NAME == 'master'){      
+            stage('Build image') {   
+                steps {
+                    script {  
+                        sh 'ls -a'
+                        docker.build(registry + ":$BUILD_NUMBER") 
+                        docker.withRegistry('', 'docker-hub-credentials') {
+                            // Golang Version
+                            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                        }
                     }
                 }
             }
