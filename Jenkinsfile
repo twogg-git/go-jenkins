@@ -27,7 +27,7 @@ pipeline {
         stage('Test') {
             steps {                                
                 // Remove cached test results.
-                sh 'go clean -cache'
+                //sh 'go clean -cache'
 
                 // Run Unit Tests.
                 sh 'go test ./... -v'                                  
