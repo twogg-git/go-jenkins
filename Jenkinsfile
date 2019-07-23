@@ -19,8 +19,6 @@ pipeline {
                 sh 'go version' 
                 // Removing cached files
                 sh 'go clean -i -r -n'
-                // Removing cached files
-                sh 'go get -u github.com/google/glog'
             }            
         }
             
