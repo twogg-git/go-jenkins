@@ -1,25 +1,37 @@
-node {
-    def root = tool name: 'Go1.8', type: 'go'
-    ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/src/github.com/twogg-git/go-jenkins") {
-        withEnv(["GOROOT=${root}", "GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/", "PATH+GO=${root}/bin"]) {
-            env.PATH="${GOPATH}/bin:$PATH"
-            
-            stage 'Checkout'
-        
-            git url: 'https://github.com/twogg-git/go-jenkins.git'
-        
-            stage 'preTest'
-            sh 'go version'
-            
-            stage 'Test'
-            sh 'go vet'
-            sh 'go test -cover'
-            
-            stage 'Build'
-            sh 'go build .'
-            
-            stage 'Deploy'
-            // Do nothing.
+#!/usr/bin/env groovy
+// The above line is used to trigger correct syntax highlighting.
+
+pipeline {
+    agent { docker { image 'golang:1.8.6' } }
+
+    stages {
+        stage('Build') {   
+            steps {                                           
+                // Create our project directory.
+                sh 'cd ${GOPATH}/src'
+                sh 'mkdir -p ${GOPATH}/src/twogg-git/go-jenkins'
+
+                // Copy all files in our Jenkins workspace to our project directory.                
+                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
+
+                // Copy all files in our "vendor" folder to our "src" folder.
+                sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
+
+                // Build the app.
+                sh 'go build'
+            }            
         }
+
+        // Each "sh" line (shell command) is a step,
+        // so if anything fails, the pipeline stops.
+        stage('Test') {
+            steps {                                
+                // Remove cached test results.
+                sh 'go clean -cache'
+
+                // Run Unit Tests.
+                sh 'go test ./... -v'                                  
+            }
+        }           
     }
-}
+} 
