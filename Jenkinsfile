@@ -15,11 +15,13 @@ pipeline {
                 
                 // Golang Version
                 sh 'go version'
+                sh 'go get -u github.com/golang/dep/...'
+                sh 'dep init'
              
             }            
         }
             
-        stage('Code checkout') {   
+        stage('Code setup') {   
             steps {        
                
                 // Create our project directory
@@ -32,8 +34,6 @@ pipeline {
                 // Copy all files in our "vendor" folder to our "src" folder
                 //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
 
-                // Build the app
-                sh 'go build'
             }            
         }
 
@@ -97,13 +97,13 @@ pipeline {
         // }
         
         // https://registry.hub.docker.com/
-        stage('Push image') {
-            steps {
-                script {
-                    docker.build(registry + ":$BUILD_NUMBER") 
-                }
-            }
-        }
+        // stage('Push image') {
+        //    steps {
+        //        script {
+        //            docker.build(registry + ":$BUILD_NUMBER") 
+        //        }
+        //    }
+        // }
         
     }
 } 
