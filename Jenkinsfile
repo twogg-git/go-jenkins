@@ -68,7 +68,7 @@ pipeline {
             steps {
                 script {  
                     sh 'ls -a'
-                    sh 'docker build -t twogghub/test1 .'
+                    docker.build(registry + ":$BUILD_NUMBER") 
                     docker.withRegistry('', 'docker-hub-credentials') {
                         // Golang Version
                         sh "docker login -u ${USERNAME} -p ${PASSWORD}"
