@@ -40,10 +40,12 @@ pipeline {
         } 
         
         stage('Build') {   
-            steps {        
-                docker.withRegistry('', 'docker-hub-credentials') {
-                    // Golang Version
-                    sh 'docker login'
+            steps {
+                script {  
+                    docker.withRegistry('', 'docker-hub-credentials') {
+                        // Golang Version
+                        sh 'docker login'
+                    }
                 }
             }
         }
