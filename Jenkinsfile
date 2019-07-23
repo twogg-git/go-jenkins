@@ -10,7 +10,7 @@ pipeline {
     }
     
     stages {
-        stage('Build') {   
+        stage('Enviroment Setup') {   
             steps {        
                 
                 // Golang Version
@@ -30,7 +30,34 @@ pipeline {
                 sh 'go build'
             }            
         }
+            
+        stage('Code checkout') {   
+            steps {        
+               
+                // Create our project directory
+                sh 'cd ${GOPATH}/src'
+                sh 'mkdir -p ${GOPATH}/src/twogg-git/go-jenkins'
 
+                // Copy all files in our Jenkins workspace to our project directory                
+                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
+
+                // Copy all files in our "vendor" folder to our "src" folder
+                //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
+
+                // Build the app
+                sh 'go build'
+            }            
+        }
+
+
+        stage('Build') {   
+            steps {        
+              
+                // Build the app
+                sh 'go build'
+            }            
+        }
+        
         // Each "sh" line (shell command) is a step,
         // so if anything fails, the pipeline stops.
         stage('Test') {
