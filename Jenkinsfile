@@ -40,7 +40,9 @@ pipeline {
         } 
         
         stage('Build image') {
-            dockerImage = docker.build("twogghub/go-jenkins:${env.BUILD_NUMBER}")
+            steps {     
+                dockerImage = docker.build("twogghub/go-jenkins:1")
+            }
         }
         
         stage('Push image') {
