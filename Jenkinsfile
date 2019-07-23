@@ -49,6 +49,7 @@ pipeline {
             steps {                    
                 // Run Unit Tests
                 echo '>>> calling binary'
+                sh ' ls -a'
                 sh './sum'
             }
         } 
