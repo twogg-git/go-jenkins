@@ -39,6 +39,15 @@ pipeline {
             }
         } 
         
+        stage('Build') {   
+            steps {        
+                docker.withRegistry('', 'docker-hub-credentials') {
+                    // Golang Version
+                    sh 'docker login'
+                }
+            }
+        }
+        
         stage('Push image') {
             steps {
                 script {
