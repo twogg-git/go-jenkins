@@ -6,18 +6,22 @@ pipeline {
 
     stages {
         stage('Build') {   
-            steps {                                           
-                // Create our project directory.
+            steps {        
+                
+                echo 'Golang Version'
+                sh 'go version'
+               
+                echo 'Create our project directory'
                 sh 'cd ${GOPATH}/src'
                 sh 'mkdir -p ${GOPATH}/src/twogg-git/go-jenkins'
 
-                // Copy all files in our Jenkins workspace to our project directory.                
+                echo 'Copy all files in our Jenkins workspace to our project directory'                
                 sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
 
-                // Copy all files in our "vendor" folder to our "src" folder.
+                echo 'Copy all files in our "vendor" folder to our "src" folder'
                 //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
 
-                // Build the app.
+                echo 'Build the app'
                 sh 'go build'
             }            
         }
@@ -25,11 +29,12 @@ pipeline {
         // Each "sh" line (shell command) is a step,
         // so if anything fails, the pipeline stops.
         stage('Test') {
-            steps {                                
+            steps {                    
+                
                 // Remove cached test results.
                 //sh 'go clean -cache'
 
-                // Run Unit Tests.
+                echo 'Run Unit Tests'
                 sh 'go test ./... -v'                                  
             }
         }           
