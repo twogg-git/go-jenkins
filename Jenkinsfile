@@ -50,6 +50,13 @@ pipeline {
             }
         } 
         
+        stage('Curl Testing') {
+            steps {                    
+                // Run Unit Tests
+                sh 'curl http://localhost:8080'   
+            }
+        } 
+        
         //stage('Push image') {
         //    /* Finally, we'll push the image with two tags:
         //    * First, the incremental build number from Jenkins
@@ -77,17 +84,17 @@ pipeline {
         
         // https://registry.hub.docker.com/
         // https://index.docker.io/v1/
-        stage('Push image') {
-            steps {
-                script {
-                    docker.withRegistry('', 'docker-hub-credentials') {
-                        aap.build(registry + ":$BUILD_NUMBER") 
-                        app.push("${env.BUILD_NUMBER}")	                     
-                        app.push("latest")
-                   }
-                }
-            }
-         }
+        //stage('Push image') {
+        //    steps {
+        //        script {
+        //           docker.withRegistry('', 'docker-hub-credentials') {
+        //                aap.build(registry + ":$BUILD_NUMBER") 
+        //                app.push("${env.BUILD_NUMBER}")	                     
+        //                app.push("latest")
+        //           }
+        //        }
+        //    }
+         //}
         
         // https://registry.hub.docker.com/
         // stage('Push image') {
