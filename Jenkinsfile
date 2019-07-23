@@ -12,13 +12,13 @@ pipeline {
     stages {
         stage('Enviroment Setup') {   
             steps {        
-                
+                echo 'Golang Version'
                 // Golang Version
                 sh 'go version'       
                 // Remove cached test results.
-                sh 'go clean -i -r -n  test.out'
+                sh 'go clean -i -r -n'//  test.out'
                 // Remove build results.
-                sh 'go clean -i -r -n  build.out'
+                //sh 'go clean -i -r -n  build.out'
             }            
         }
             
