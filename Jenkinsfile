@@ -42,7 +42,7 @@ pipeline {
         stage('Build image') {   
             steps {
                 script {  
-                    docker.withRegistry('registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
                         // Golang Version
                         sh 'docker login'
                     }
@@ -50,10 +50,11 @@ pipeline {
             }
         }
         
+        // https://registry.hub.docker.com/
         stage('Push image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
                         app.push("${env.BUILD_NUMBER}")	                     
                         app.push("latest")
                     }
