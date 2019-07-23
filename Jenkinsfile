@@ -3,11 +3,6 @@
 
 pipeline {
     agent { docker { image 'golang:1.8.6' } }
-
-    environment {
-        registry = 'twogghub/test1'
-        registryCredential = 'docker-hub-credentials'
-    }
     
     // Each "sh" line (shell command) is a step,
     // so if anything fails, the pipeline stops.
@@ -53,7 +48,7 @@ pipeline {
         stage('Curl Testing') {
             steps {                    
                 // Run Unit Tests
-                sh 'curl http://localhost:8080'   
+                echo '>>> calling binary'
                 sh './sum'
             }
         } 
