@@ -39,7 +39,7 @@ pipeline {
             }
         } 
         
-        stage('Build') {   
+        stage('Build image') {   
             steps {
                 script {  
                     docker.withRegistry('', 'docker-hub-credentials') {
