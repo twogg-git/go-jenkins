@@ -10,8 +10,6 @@ node {
         
             stage 'preTest'
             sh 'go version'
-            sh 'go get -u github.com/golang/dep/...'
-            sh 'dep init'
             
             stage 'Test'
             sh 'go vet'
