@@ -15,7 +15,7 @@ pipeline {
                 sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
 
                 // Copy all files in our "vendor" folder to our "src" folder.
-                sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
+                //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
 
                 // Build the app.
                 sh 'go build'
