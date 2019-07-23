@@ -12,37 +12,34 @@ pipeline {
     stages {
         stage('Enviroment Setup') {   
             steps {        
-                echo 'Golang Version'
-                // Golang Version
+                echo '>>>>> Golang Version'
                 sh 'go version'       
-                // Remove cached test results.
-                sh 'go clean -i -r -n'//  test.out'
-                // Remove build results.
-                //sh 'go clean -i -r -n  build.out'
+                echo '>>>>> Removing cached files'
+                sh 'go clean -i -r -n'
             }            
         }
             
         stage('Code setup') {   
             steps {        
                
-                // Create our project directory
+                echo '>>>>> Create our project directory'
                 sh 'cd ${GOPATH}/src'
                 sh 'mkdir -p ${GOPATH}/src/twogg-git/go-jenkins'
 
-                // Copy all files in our Jenkins workspace to our project directory                
+                echo '>>>>> Copy all files in our Jenkins workspace to our project directory'             
                 sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
 
-                // Copy all files in our "vendor" folder to our "src" folder
+                //echo '>>>>> Copy all files in our "vendor" folder to our "src" folder'
                 //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
 
             }            
         }
 
 
-        stage('Build') {   
+        stage('Building binary') {   
             steps {        
               
-                // Build the app
+                echo '>>>>> Build the app'
                 sh 'go build'
             }            
         }
@@ -52,10 +49,10 @@ pipeline {
         stage('Test') {
             steps {                    
                 
-                // Run Unit Tests
+                echo '>>>>> Run Unit Tests'
                 sh 'go test ./... -v'   
+                echo '>>>>> Corverage Report %'
                 sh 'go test -cover -coverprofile=c.out'
-                sh 'go tool cover -html=c.out -o coverage.html'
             }
         } 
         
