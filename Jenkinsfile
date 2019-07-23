@@ -42,7 +42,7 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    docker.withRegistry('', 'docker-hub-credentials') {
+                    docker.withRegistry('https://hub.docker.com/u/twogghub', 'docker-hub-credentials') {
                         app.push("${env.BUILD_NUMBER}")	                     
                         app.push("latest")
                     }
