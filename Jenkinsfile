@@ -42,25 +42,25 @@ pipeline {
         stage('Build image') {   
             steps {
                 script {  
-                    docker.withRegistry('https://registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
+                    docker.withRegistry('', 'docker-hub-credentials') {
                         // Golang Version
-                        sh 'docker login'
+                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
                     }
                 }
             }
         }
         
         // https://registry.hub.docker.com/
-        stage('Push image') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
-                        app.push("${env.BUILD_NUMBER}")	                     
-                        app.push("latest")
-                    }
-                }
-            }
-        }
+        //stage('Push image') {
+        //    steps {
+        //        script {
+        //            docker.withRegistry('https://registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
+        //                app.push("${env.BUILD_NUMBER}")	                     
+        //                app.push("latest")
+        //            }
+        //        }
+        //    }
+        // }
             
     }
 } 
