@@ -12,8 +12,8 @@ pipeline {
     stages {
         stage('Enviroment Setup') {   
             steps {        
-                echo '>>>>> Golang Version'
-                sh 'go version'       
+                
+                sh 'go version' //Golang Version      
                 echo '>>>>> Removing cached files'
                 sh 'go clean -i -r -n'
             }            
