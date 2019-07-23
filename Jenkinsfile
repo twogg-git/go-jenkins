@@ -9,48 +9,43 @@ pipeline {
         registryCredential = 'docker-hub-credentials'
     }
     
+    // Each "sh" line (shell command) is a step,
+    // so if anything fails, the pipeline stops.
     stages {
+        
         stage('Enviroment Setup') {   
             steps {        
-                
-                sh 'go version' //Golang Version      
-                echo '>>>>> Removing cached files' && sh 'go clean -i -r -n'
+                // Golang Version
+                sh 'go version' 
+                // Removing cached files
+                sh 'go clean -i -r -n'
             }            
         }
             
-        stage('Code setup') {   
-            steps {        
-               
-                echo '>>>>> Create our project directory'
+        stage('Code Setup') {   
+            steps {               
+                // Create our project directory
                 sh 'cd ${GOPATH}/src'
                 sh 'mkdir -p ${GOPATH}/src/twogg-git/go-jenkins'
-
-                echo '>>>>> Copy all files in our Jenkins workspace to our project directory'             
+                // Copy all files in our Jenkins workspace to our project directory            
                 sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/twogg-git/go-jenkins'
-
-                //echo '>>>>> Copy all files in our "vendor" folder to our "src" folder'
-                //sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
-
+                // Copy all files in our "vendor" folder to our "src" folder
+                // sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
             }            
         }
 
-
-        stage('Building binary') {   
-            steps {        
-              
-                echo '>>>>> Build the app'
+        stage('Binary Building') {   
+            steps {       
+                // Build the app
                 sh 'go build'
             }            
         }
-        
-        // Each "sh" line (shell command) is a step,
-        // so if anything fails, the pipeline stops.
-        stage('Test') {
+    
+        stage('Unit Testing') {
             steps {                    
-                
-                echo '>>>>> Run Unit Tests'
+                // Run Unit Tests
                 sh 'go test ./... -v'   
-                echo '>>>>> Corverage Report %'
+                // Corverage Report %
                 sh 'go test -cover -coverprofile=c.out'
             }
         } 
@@ -69,16 +64,16 @@ pipeline {
         //    }
         //}
     
-        //stage('Build image') {   
-        //    steps {
-        //        script {  
-        //            docker.withRegistry('', 'docker-hub-credentials') {
-        //                // Golang Version
-        //                sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-        //            }
-        //        }
-        //    }
-        //}
+        stage('Build image') {   
+            steps {
+                script {  
+                    docker.withRegistry('', 'docker-hub-credentials') {
+                        // Golang Version
+                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                    }
+                }
+            }
+        }
         
         // https://registry.hub.docker.com/
         //stage('Push image') {
