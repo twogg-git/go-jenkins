@@ -42,7 +42,7 @@ pipeline {
         stage('Build image') {   
             steps {
                 script {  
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    docker.withRegistry('registry.hub.docker.com/twogghub', 'docker-hub-credentials') {
                         // Golang Version
                         sh 'docker login'
                     }
