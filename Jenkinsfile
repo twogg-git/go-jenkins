@@ -50,7 +50,7 @@ pipeline {
                 // Run Unit Tests
                 echo '>>> calling binary'
                 sh ' ls -a'
-                sh './sum'
+                sh './go-jenkins_master'
             }
         } 
         
