@@ -80,7 +80,7 @@ pipeline {
         
         //https://rezasetiadi.wordpress.com/2017/06/06/deploy-go-application-using-jenkins-pipeline/
         //go-jenkins = [your_project]
-        stage('Feature Stage') {
+        stage('Deploy') {
             when { branch 'deploy' } 
             steps {
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
