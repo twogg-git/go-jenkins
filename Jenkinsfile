@@ -17,6 +17,7 @@ pipeline {
                 // Setting up package dependencies
                 sh 'go get -v github.com/stretchr/testify/assert'
                 sh 'go get -v github.com/gorilla/mux'
+                // sh 'go get -d'
             }            
         }
             
@@ -38,16 +39,9 @@ pipeline {
                 sh 'go build'
             }            
         }
-    
-        // https://www.thepolyglotdeveloper.com/2017/02/unit-testing-golang-application-includes-http/
-        stage('Integration') {
-            steps {                    
-                // Run Unit Tests
-                sh 'go test -tags=integration'   
-            }
-        }
         
-        stage('Testing') {
+        //// https://www.thepolyglotdeveloper.com/2017/02/unit-testing-golang-application-includes-http/
+        stage('Unit Testing') {
             steps {
                 parallel(
                     UnitTesting: {
@@ -64,7 +58,9 @@ pipeline {
         stage('Code Quality') {
             when { not { branch 'master' } }
             steps {
-                echo 'Example: Validate format and good practices'
+                // https://peter.bourgon.org/go-in-production/
+                echo 'Only for development run integration testing'
+                sh 'go vet'  
             }
         }
         
@@ -72,6 +68,8 @@ pipeline {
         stage('Delivery') {
             when { branch 'master' } 
             steps {
+                echo 'Only for development run integration testing and deploy!!!'
+                sh 'go test -tags=integration'  
                 sh 'ls'
                 // /var/jenkins_home/workspace/go-jenkins_master
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/jenkins_home/workspace/go-jenkins_master']){
