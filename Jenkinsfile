@@ -76,20 +76,16 @@ pipeline {
             when { branch 'master' } 
             steps {
                 sh 'ls -a'
-                cd "${WORKSPACE}"
+                sh 'cd '${WORKSPACE}''
                 sh 'ls -a'
+                sh 'git status'
+                sh 'git add go-jenkins_master'
+                sh 'git commit -m "Added file with automated Jenikins job"'
+                sh 'git push'
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
-                dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
+                    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
                         sh 'go install'
-                        sh 'ls -a'
-                        
-                        // cd "${WORKSPACE}"
-                        // git status # should show <file> as changed or unversioned
-
-                        // git add <file>
-                        // git commit -m "Added file with automated Jenikins job"
-                        // git push
                     }
                 //}
             }
