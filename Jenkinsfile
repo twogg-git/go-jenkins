@@ -53,7 +53,8 @@ pipeline {
                 // Run Unit Tests
                 echo '>>> calling binary'
                 sh ' ls -a'
-                sh './go-jenkins_master'
+                //sh './go-jenkins_master'
+                sh 'curl http://localhost:8080'
             }
         } 
         
