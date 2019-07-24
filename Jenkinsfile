@@ -47,6 +47,18 @@ pipeline {
                 sh 'go test -cover -coverprofile=c.out'
             }
         }
+       
+        stage('Branch Test') {
+            when {
+                    // skip this stage unless branch is NOT master
+                not {
+                    branch 'master'
+                }
+            }
+            steps {
+                echo 'MASTERRRRRRRRRRRRRR'
+            }
+        }
         
         //stage('Push image') {
         //    /* Finally, we'll push the image with two tags:
