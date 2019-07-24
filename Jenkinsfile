@@ -40,16 +40,14 @@ pipeline {
         }
     
         // https://www.thepolyglotdeveloper.com/2017/02/unit-testing-golang-application-includes-http/
-        stage('Unit Testing') {
+        stage('Integration') {
             steps {                    
                 // Run Unit Tests
-                sh 'go test ./... -v'   
-                // Corverage Report %
-                sh 'go test -cover -coverprofile=c.out'
+                sh 'go test -tags=integration'   
             }
         }
         
-        stage('Parallel Testing') {
+        stage('Testing') {
             steps {
                 parallel(
                     UnitTesting: {
