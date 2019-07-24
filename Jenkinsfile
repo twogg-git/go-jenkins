@@ -75,9 +75,12 @@ pipeline {
         stage('Delivery') {
             when { branch 'master' } 
             steps {
+                sh 'ls -a'
+                cd "${WORKSPACE}"
+                sh 'ls -a'
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
-                    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
+                dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
                         sh 'go install'
                         sh 'ls -a'
                         
