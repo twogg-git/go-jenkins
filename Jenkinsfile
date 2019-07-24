@@ -76,22 +76,22 @@ pipeline {
             when { branch 'master' } 
             steps {
                 sh 'ls -a'
-                sh 'cd '${WORKSPACE}''
-                sh 'ls -a'
-                sh 'git status'
-                sh 'git add go-jenkins_master'
-                sh 'git commit -m "Added file with automated Jenikins job"'
-                sh 'git push'
+                sshagent (credentials: ['github-ssh-credentials-ID']) {
+                    sh("git tag -a some_tag -m 'Jenkins'")
+                    sh('git push master --tags')
+                }
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
-                    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
-                        sh 'go install'
-                    }
+                //    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
+                //        sh 'go install'
+                //    }
                 //}
             }
         }
         
      
+        
+        
         //https://medium.com/@gustavo.guss/jenkins-building-docker-image-and-sending-to-registry-64b84ea45ee9
         //https://jenkins.io/doc/pipeline/steps/docker-workflow/
         //https://jenkins.io/doc/book/pipeline/docker/
