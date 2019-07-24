@@ -59,29 +59,23 @@ pipeline {
                         sh 'go test ./... -v'
                     }
                 )
+                // Corverage Report %
+                sh 'go test -cover -coverprofile=c.out'
             }
         }
         
         // Excecuted only for develop or features branches
-        stage('Develop') {
+        stage('Code Quality') {
             when { not { branch 'master' } }
             steps {
                 echo 'Example: Validate format and good practices'
             }
         }
         
-        // Excecuted when master needs sanity checks
-        stage('Staging') {
-            when { branch 'master' } 
-            steps {
-                echo 'Example: Validates databases versioning'
-            }
-        }
-        
         //https://rezasetiadi.wordpress.com/2017/06/06/deploy-go-application-using-jenkins-pipeline/
         //go-jenkins = [your_project]
         stage('Delivery') {
-            when { branch 'release' } 
+            when { branch 'master' } 
             steps {
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
