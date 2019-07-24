@@ -58,17 +58,17 @@ pipeline {
             }
         } 
         
-        stage("Branch Test") {
+        stage('Branch Test') {
             when {
                     // skip this stage unless branch is NOT master
-                    echo "Line 1 NOT master"
+                    echo 'Line 1 NOT master'
                 not {
-                    branch "master"
-                    echo "Line 2 NOT master
+                    branch 'master'
+                    echo 'Line 2 NOT master'
                 }
             }
             steps {
-                echo "Line 3 World"
+                echo 'Line 3 World'
             }
         }
         //stage('Push image') {
