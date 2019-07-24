@@ -76,73 +76,14 @@ pipeline {
             when { branch 'master' } 
             steps {
                 sh 'ls -a'
-                sshagent (credentials: ['github-ssh-credentials-ID']) {
-                    sh("git tag -a some_tag -m 'Jenkins'")
-                    sh('git push master --tags')
-                }
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
-                //        sh 'go install'
+                        sh 'go install'
                 //    }
                 //}
             }
         }
-        
-     
-        
-        
-        //https://medium.com/@gustavo.guss/jenkins-building-docker-image-and-sending-to-registry-64b84ea45ee9
-        //https://jenkins.io/doc/pipeline/steps/docker-workflow/
-        //https://jenkins.io/doc/book/pipeline/docker/
-        //https://issues.jenkins-ci.org/browse/JENKINS-41051
-        //stage('Push image') {
-        //    /* Finally, we'll push the image with two tags:
-        //    * First, the incremental build number from Jenkins
-        //    * Second, the 'latest' tag. */
-        //    withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        //
-        //        docker.withRegistry('', 'docker-hub-credentials') {
-        //            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-        //            myImage.push("${env.BUILD_NUMBER}")
-        //            myImage.push("latest")
-        //        }
-        //    }
-        //}
-        // stage('Build image') {   
-        //    steps {
-        //        script {  
-        //            sh 'ls -a'
-        //            docker.build(registry + ":$BUILD_NUMBER") 
-        //            docker.withRegistry('', 'docker-hub-credentials') {
-        //                sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-        //            }
-        //        }
-        //    }
-        //}
-        
-        // https://registry.hub.docker.com/
-        // https://index.docker.io/v1/
-        //stage('Push image') {
-        //    steps {
-        //        script {
-        //           docker.withRegistry('', 'docker-hub-credentials') {
-        //                aap.build(registry + ":$BUILD_NUMBER") 
-        //                app.push("${env.BUILD_NUMBER}")	                     
-        //                app.push("latest")
-        //           }
-        //        }
-        //    }
-         //}
-        
-        // https://registry.hub.docker.com/
-        // stage('Push image') {
-        //    steps {
-        //        script {
-        //            docker.build(registry + ":$BUILD_NUMBER") 
-        //        }
-        //    }
-        // }
-        
+      
     }
 } 
