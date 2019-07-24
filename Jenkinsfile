@@ -49,6 +49,19 @@ pipeline {
             }
         }
         
+        stage('Parallel Testing') {
+            steps {
+                parallel(
+                    a: {
+                        sh 'go test sum_test.go'
+                    },
+                    b: {
+                        sh 'go test main_test.go'
+                    }
+                )
+            }
+        }
+        
         // Run this stage unless branch is Feature
         stage('Feature Stage') {
             when { not { branch 'master' } }
