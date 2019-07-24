@@ -54,7 +54,7 @@ pipeline {
                 parallel(
                     UnitTesting: {
                         sh 'go test ./... -v'
-                    }
+                    },
                     Coverage: {
                         sh 'go test -cover -coverprofile=c.out'
                     }
