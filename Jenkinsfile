@@ -13,7 +13,7 @@ pipeline {
                 // Golang Version
                 sh 'go version' 
                 // Removing cached files
-                sh 'go clean -i -r -n'
+                // sh 'go clean -i -r -n'
                 // Setting up package dependencies
                 sh 'go get -v github.com/stretchr/testify/assert'
                 sh 'go get -v github.com/gorilla/mux'
