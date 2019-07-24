@@ -52,15 +52,13 @@ pipeline {
         stage('Parallel Testing') {
             steps {
                 parallel(
-                    BussinesLogic: {
-                        sh 'go test ./... -v'
-                    },
-                    Endpoints: {
+                    UnitTesting: {
                         sh 'go test ./... -v'
                     }
+                    Coverage: {
+                        sh 'go test -cover -coverprofile=c.out'
+                    }
                 )
-                // Corverage Report %
-                sh 'go test -cover -coverprofile=c.out'
             }
         }
         
