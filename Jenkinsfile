@@ -46,17 +46,7 @@ pipeline {
                 // Corverage Report %
                 sh 'go test -cover -coverprofile=c.out'
             }
-        } 
-        
-        stage('Curl Testing') {
-            steps {                    
-                // Run Unit Tests
-                echo '>>> calling binary'
-                sh ' ls -a'
-                //sh './go-jenkins_master'
-                sh 'curl http://localhost:8080'
-            }
-        } 
+        }
         
         //stage('Push image') {
         //    /* Finally, we'll push the image with two tags:
