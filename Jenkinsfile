@@ -53,10 +53,10 @@ pipeline {
             steps {
                 parallel(
                     a: {
-                        sh 'go test sum.go'
+                        sh 'go ./test sum.go'
                     },
                     b: {
-                        sh 'go test main.go'
+                        sh 'go ./test main.go'
                     }
                 )
             }
