@@ -47,16 +47,20 @@ pipeline {
                 sh 'go test -cover -coverprofile=c.out'
             }
         }
-       
-        stage('Branch Test') {
-            when {
-                    // skip this stage unless branch is NOT master
-                not {
-                    branch 'master'
-                }
-            }
+        
+        // Run this stage unless branch is Feature
+        stage('Feature Stage') {
+            when { not { branch 'master' } }
             steps {
-                echo 'MASTERRRRRRRRRRRRRR'
+                echo 'FEATURE BRANCH'
+            }
+        }
+        
+        // Run this stage when branch is MASTER
+        stage('Master Stage') {
+            when { branch 'master' } 
+            steps {
+                echo 'MASTERRRRRRRRRRRRRR!!!'
             }
         }
         
