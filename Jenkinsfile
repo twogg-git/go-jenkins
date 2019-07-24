@@ -70,8 +70,9 @@ pipeline {
         stage('Build Go!') {
             steps { 
                 withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
-                dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
-                    sh 'go install'
+                    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
+                        sh 'go install'
+                    }
                 }
             }
         }
