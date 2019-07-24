@@ -76,12 +76,13 @@ pipeline {
             when { branch 'master' } 
             steps {
                 sh 'ls -a'
-                //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
-                //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
-                //    dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
+                /var/jenkins_home/workspace/go-jenkins_master
+                //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/jenkins_home/workspace/go-jenkins_master']){
+                withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins_master/workspace/']){
+                    dir('/var/lib/jenkins_home/jobs/go-jenkins_master/workspace/src/github.com.org/twogg-git/go-jenkins'){
                         sh 'go install'
-                //    }
-                //}
+                    }
+                }
             }
         }
       
