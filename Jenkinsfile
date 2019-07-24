@@ -61,10 +61,15 @@ pipeline {
             when { branch 'master' } 
             steps {
                 echo 'MASTERRRRRRRRRRRRRR!!!'
+                sh 'go install'
             }
         }
+        // https://rezasetiadi.wordpress.com/2017/06/06/deploy-go-application-using-jenkins-pipeline/
         
+        //https://medium.com/@gustavo.guss/jenkins-building-docker-image-and-sending-to-registry-64b84ea45ee9
         //https://jenkins.io/doc/pipeline/steps/docker-workflow/
+        //https://jenkins.io/doc/book/pipeline/docker/
+        //https://issues.jenkins-ci.org/browse/JENKINS-41051
         //stage('Push image') {
         //    /* Finally, we'll push the image with two tags:
         //    * First, the incremental build number from Jenkins
