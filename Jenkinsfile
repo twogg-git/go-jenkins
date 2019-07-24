@@ -51,10 +51,7 @@ pipeline {
         stage('Curl Testing') {
             steps {                    
                 // Run Unit Tests
-                echo '>>> calling binary'
-                sh ' ls -a'
-                //sh './go-jenkins_master'
-                sh 'curl http://localhost:8080'
+                sh 'go test main_test.go -v'
             }
         } 
         
