@@ -52,41 +52,49 @@ pipeline {
         stage('Parallel Testing') {
             steps {
                 parallel(
-                    a: {
+                    BussinesLogic: {
                         sh 'go test ./... -v'
                     },
-                    b: {
+                    Endpoints: {
                         sh 'go test ./... -v'
                     }
                 )
             }
         }
         
-        // Run this stage unless branch is Feature
-        stage('Feature Stage') {
+        // Excecuted only for develop or features branches
+        stage('Develop') {
             when { not { branch 'master' } }
             steps {
-                echo 'FEATURE BRANCH'
+                echo 'Example: Validate format and good practices'
             }
         }
         
-        // Run this stage when branch is MASTER
-        stage('Master Stage') {
+        // Excecuted when master needs sanity checks
+        stage('Staging') {
             when { branch 'master' } 
             steps {
-                echo 'MASTERRRRRRRRRRRRRR!!!'
+                echo 'Example: Validates databases versioning'
             }
         }
         
         //https://rezasetiadi.wordpress.com/2017/06/06/deploy-go-application-using-jenkins-pipeline/
         //go-jenkins = [your_project]
-        stage('Deploy') {
-            when { branch 'deploy' } 
+        stage('Delivery') {
+            when { branch 'release' } 
             steps {
                 //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                 //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins/workspace/']){
                     dir('/var/lib/jenkins/jobs/go-jenkins/workspace/src/github.com.org/twogg-git/go-jenkins'){
                         sh 'go install'
+                        sh 'ls -a'
+                        
+                        // cd "${WORKSPACE}"
+                        // git status # should show <file> as changed or unversioned
+
+                        // git add <file>
+                        // git commit -m "Added file with automated Jenikins job"
+                        // git push
                     }
                 //}
             }
