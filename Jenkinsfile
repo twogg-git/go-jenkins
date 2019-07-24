@@ -46,15 +46,8 @@ pipeline {
                 // Corverage Report %
                 sh 'go test -cover -coverprofile=c.out'
             }
-        } 
-        
-        stage('Curl Testing') {
-            steps {                    
-                // Run Unit Tests
-                sh 'go test main_test.go -v'
-            }
-        } 
-        
+        }
+       
         stage('Branch Test') {
             when {
                     // skip this stage unless branch is NOT master
@@ -66,6 +59,7 @@ pipeline {
                 echo 'MASTERRRRRRRRRRRRRR'
             }
         }
+        
         //stage('Push image') {
         //    /* Finally, we'll push the image with two tags:
         //    * First, the incremental build number from Jenkins
