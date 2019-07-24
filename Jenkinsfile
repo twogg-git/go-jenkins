@@ -57,8 +57,8 @@ pipeline {
         }
         
         // Run this stage when branch is MASTER
-        stage('Feature Stage') {
-            when { is { branch 'master' } }
+        stage('Master Stage') {
+            when { branch 'master' } 
             steps {
                 echo 'MASTERRRRRRRRRRRRRR!!!'
             }
