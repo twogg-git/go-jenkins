@@ -17,6 +17,7 @@ pipeline {
                 // Setting up package dependencies
                 sh 'go get -v github.com/stretchr/testify/assert'
                 sh 'go get -v github.com/gorilla/mux'
+                // sh 'go get -d'
             }            
         }
             
@@ -38,79 +39,47 @@ pipeline {
                 sh 'go build'
             }            
         }
-    
+        
+        //// https://www.thepolyglotdeveloper.com/2017/02/unit-testing-golang-application-includes-http/
         stage('Unit Testing') {
-            steps {                    
-                // Run Unit Tests
-                sh 'go test ./... -v'   
-                // Corverage Report %
-                sh 'go test -cover -coverprofile=c.out'
+            steps {
+                parallel(
+                    UnitTesting: {
+                        sh 'go test ./... -v'
+                    },
+                    Coverage: {
+                        sh 'go test -cover -coverprofile=c.out'
+                    }
+                )
             }
         }
         
-        // Run this stage unless branch is Feature
-        stage('Feature Stage') {
+        // Excecuted only for develop or features branches
+        stage('Code Quality') {
             when { not { branch 'master' } }
             steps {
-                echo 'FEATURE BRANCH'
+                // https://peter.bourgon.org/go-in-production/
+                echo 'Only for development run integration testing'
+                sh 'go vet'  
             }
         }
         
-        // Run this stage when branch is MASTER
-        stage('Master Stage') {
+        //https://rezasetiadi.wordpress.com/2017/06/06/deploy-go-application-using-jenkins-pipeline/
+        stage('Delivery') {
             when { branch 'master' } 
             steps {
-                echo 'MASTERRRRRRRRRRRRRR!!!'
+                echo 'Only for development run integration testing and deploy!!!'
+                sh 'go test -tags=integration'  
+                sh 'ls'
+                // /var/jenkins_home/workspace/go-jenkins_master
+                //withEnv(['PATH=$PATH:/opt/go/bin:','GOROOT=/opt/go','GOPATH=/var/jenkins_home/workspace/go-jenkins_master']){
+                //withEnv(['GOROOT=/opt/go','GOPATH=/var/lib/jenkins/jobs/go-jenkins_master/workspace/']){
+                //    dir('/var/lib/jenkins_home/jobs/go-jenkins_master/workspace/src/github.com.org/twogg-git/go-jenkins'){
+                //        sh 'go install'
+                //    }
+                //}
             }
         }
-        
-        //stage('Push image') {
-        //    /* Finally, we'll push the image with two tags:
-        //    * First, the incremental build number from Jenkins
-        //    * Second, the 'latest' tag. */
-        //    withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        //
-        //        docker.withRegistry('', 'docker-hub-credentials') {
-        //            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-        //            myImage.push("${env.BUILD_NUMBER}")
-        //            myImage.push("latest")
-        //        }
-        //    }
-        //}
-        // stage('Build image') {   
-        //    steps {
-        //        script {  
-        //            sh 'ls -a'
-        //            docker.build(registry + ":$BUILD_NUMBER") 
-        //            docker.withRegistry('', 'docker-hub-credentials') {
-        //                sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-        //            }
-        //        }
-        //    }
-        //}
-        
-        // https://registry.hub.docker.com/
-        // https://index.docker.io/v1/
-        //stage('Push image') {
-        //    steps {
-        //        script {
-        //           docker.withRegistry('', 'docker-hub-credentials') {
-        //                aap.build(registry + ":$BUILD_NUMBER") 
-        //                app.push("${env.BUILD_NUMBER}")	                     
-        //                app.push("latest")
-        //           }
-        //        }
-        //    }
-         //}
-        
-        // https://registry.hub.docker.com/
-        // stage('Push image') {
-        //    steps {
-        //        script {
-        //            docker.build(registry + ":$BUILD_NUMBER") 
-        //        }
-        //    }
-        // }
-        
+      
     }
 } 
