@@ -8,7 +8,7 @@ docker run -d --name blueocean -p 8282:8080 --user root \
 ```
 
 ```sh
-docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+docker exec -it blueocean cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 ```sh
