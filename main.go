@@ -10,6 +10,7 @@ import (
 func CreateEndpoint(w http.ResponseWriter, req *http.Request) {
     w.WriteHeader(200)
     w.Write([]byte("Item Created"))
+    la maldad!
 }
 
 func main() {
