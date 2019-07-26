@@ -10,11 +10,10 @@ import (
 func CreateEndpoint(w http.ResponseWriter, req *http.Request) {
     w.WriteHeader(200)
     w.Write([]byte("Item Created"))
-    la maldad!
 }
 
-func main() {
-    router := mux.NewRouter()
-    router.HandleFunc("/create", CreateEndpoint).Methods("GET")
-    log.Fatal(http.ListenAndServe(":12345", router))
-}
+//func main() {
+//    router := mux.NewRouter()
+//    router.HandleFunc("/create", CreateEndpoint).Methods("GET")
+//    log.Fatal(http.ListenAndServe(":12345", router))
+//}
